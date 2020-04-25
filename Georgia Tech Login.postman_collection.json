@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "00ef62eb-c93c-4f85-a39a-753292854f30",
+		"name": "Georgia Tech Login",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Request a Ticket Granting Ticket",
+			"protocolProfileBehavior": {
+				"followRedirects": false
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login.gatech.edu/cas/v1/tickets",
+					"protocol": "https",
+					"host": [
+						"login",
+						"gatech",
+						"edu"
+					],
+					"path": [
+						"cas",
+						"v1",
+						"tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request a Service Ticket",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "service",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login.gatech.edu/cas/v1/tickets/:ticket-granting-ticket",
+					"protocol": "https",
+					"host": [
+						"login",
+						"gatech",
+						"edu"
+					],
+					"path": [
+						"cas",
+						"v1",
+						"tickets",
+						":ticket-granting-ticket"
+					],
+					"variable": [
+						{
+							"key": "ticket-granting-ticket",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate a Service Ticket - Vanilla CAS",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://login.gatech.edu/cas/serviceValidate?service=&ticket=",
+					"protocol": "https",
+					"host": [
+						"login",
+						"gatech",
+						"edu"
+					],
+					"path": [
+						"cas",
+						"serviceValidate"
+					],
+					"query": [
+						{
+							"key": "service",
+							"value": ""
+						},
+						{
+							"key": "ticket",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate a Service Ticket - SAML",
+			"protocolProfileBehavior": {
+				"followRedirects": false
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "text/xml",
+						"type": "text"
+					},
+					{
+						"key": "soapaction",
+						"value": "http://www.oasis-open.org/committees/security",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\t<SOAP-ENV:Header/>\n\t<SOAP-ENV:Body>\n\t\t<samlp:Request xmlns:samlp=\"urn:oasis:names:tc:SAML:1.0:protocol\"  MajorVersion=\"1\" MinorVersion=\"1\" RequestID=\"_192.168.16.51.1024506224022\" IssueInstant=\"2002-06-19T17:03:44.022Z\">\n\t\t\t<samlp:AssertionArtifact>\n\t\t\t\tput ticket here\n\t\t\t</samlp:AssertionArtifact>\n\t\t</samlp:Request>\n\t</SOAP-ENV:Body>\n</SOAP-ENV:Envelope>\n",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://login.gatech.edu/cas/samlValidate?TARGET=",
+					"protocol": "https",
+					"host": [
+						"login",
+						"gatech",
+						"edu"
+					],
+					"path": [
+						"cas",
+						"samlValidate"
+					],
+					"query": [
+						{
+							"key": "TARGET",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "7b243002-b956-4b44-91fa-ec6b287198e3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "cb9e39bd-46ed-4a12-a47f-a49e9e8cf6a9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "4c50641a-e6cd-4d6d-9722-508146ac8308",
+			"key": "username",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "6ded28d9-b93c-4fb8-8242-80a015287560",
+			"key": "password",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
