@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "00ef62eb-c93c-4f85-a39a-753292854f30",
+		"_postman_id": "6ef516f3-2042-47bd-b657-92d2110ce88c",
 		"name": "Georgia Tech Login",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -32,12 +32,10 @@
 					]
 				},
 				"url": {
-					"raw": "https://login.gatech.edu/cas/v1/tickets",
+					"raw": "https://{{host}}/cas/v1/tickets",
 					"protocol": "https",
 					"host": [
-						"login",
-						"gatech",
-						"edu"
+						"{{host}}"
 					],
 					"path": [
 						"cas",
@@ -67,12 +65,10 @@
 					]
 				},
 				"url": {
-					"raw": "https://login.gatech.edu/cas/v1/tickets/:ticket-granting-ticket",
+					"raw": "https://{{host}}/cas/v1/tickets/:ticket-granting-ticket",
 					"protocol": "https",
 					"host": [
-						"login",
-						"gatech",
-						"edu"
+						"{{host}}"
 					],
 					"path": [
 						"cas",
@@ -91,7 +87,7 @@
 			"response": []
 		},
 		{
-			"name": "Validate a Service Ticket - Vanilla CAS",
+			"name": "Validate a Service Ticket - CAS v2",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -99,15 +95,46 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://login.gatech.edu/cas/serviceValidate?service=&ticket=",
+					"raw": "https://{{host}}/cas/serviceValidate?service=&ticket=",
 					"protocol": "https",
 					"host": [
-						"login",
-						"gatech",
-						"edu"
+						"{{host}}"
 					],
 					"path": [
 						"cas",
+						"serviceValidate"
+					],
+					"query": [
+						{
+							"key": "service",
+							"value": ""
+						},
+						{
+							"key": "ticket",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate a Service Ticket - CAS v3",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host}}/cas/p3/serviceValidate?service=&ticket=",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"cas",
+						"p3",
 						"serviceValidate"
 					],
 					"query": [
@@ -153,7 +180,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\t<SOAP-ENV:Header/>\n\t<SOAP-ENV:Body>\n\t\t<samlp:Request xmlns:samlp=\"urn:oasis:names:tc:SAML:1.0:protocol\"  MajorVersion=\"1\" MinorVersion=\"1\" RequestID=\"_192.168.16.51.1024506224022\" IssueInstant=\"2002-06-19T17:03:44.022Z\">\n\t\t\t<samlp:AssertionArtifact>\n\t\t\t\tput ticket here\n\t\t\t</samlp:AssertionArtifact>\n\t\t</samlp:Request>\n\t</SOAP-ENV:Body>\n</SOAP-ENV:Envelope>\n",
+					"raw": "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\t<SOAP-ENV:Header/>\n\t<SOAP-ENV:Body>\n\t\t<samlp:Request xmlns:samlp=\"urn:oasis:names:tc:SAML:1.0:protocol\"  MajorVersion=\"1\" MinorVersion=\"1\" RequestID=\"_192.168.16.51.1024506224022\" IssueInstant=\"2002-06-19T17:03:44.022Z\">\n\t\t\t<samlp:AssertionArtifact>\n\t\t\t\tput service ticket here\n\t\t\t</samlp:AssertionArtifact>\n\t\t</samlp:Request>\n\t</SOAP-ENV:Body>\n</SOAP-ENV:Envelope>\n",
 					"options": {
 						"raw": {
 							"language": "xml"
@@ -161,12 +188,10 @@
 					}
 				},
 				"url": {
-					"raw": "https://login.gatech.edu/cas/samlValidate?TARGET=",
+					"raw": "https://{{host}}/cas/samlValidate?TARGET=",
 					"protocol": "https",
 					"host": [
-						"login",
-						"gatech",
-						"edu"
+						"{{host}}"
 					],
 					"path": [
 						"cas",
@@ -187,7 +212,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "7b243002-b956-4b44-91fa-ec6b287198e3",
+				"id": "0684999d-c87d-4c8e-9205-7fc87a3185bc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -197,7 +222,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "cb9e39bd-46ed-4a12-a47f-a49e9e8cf6a9",
+				"id": "38a59933-e299-40a3-bc08-587b2f54c274",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -207,14 +232,20 @@
 	],
 	"variable": [
 		{
-			"id": "4c50641a-e6cd-4d6d-9722-508146ac8308",
+			"id": "d8910d28-362e-433e-854b-ce41b3a52fa0",
 			"key": "username",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "6ded28d9-b93c-4fb8-8242-80a015287560",
+			"id": "17a3940e-0aa6-44f7-859d-4fba7125b6a9",
 			"key": "password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "e6bef6dc-4ddd-4327-84ac-34718afb510f",
+			"key": "host",
 			"value": "",
 			"type": "string"
 		}
